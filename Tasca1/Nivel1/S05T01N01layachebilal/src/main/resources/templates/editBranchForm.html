@@ -38,18 +38,18 @@
 </head>
 <body>
 <div class="container">
-    <h2>Update Branch</h2>
+    <h2>UPDATE BRANCH</h2>
     <form action="#" th:action="@{/branch/update}" th:object="${branchUpdate}" method="POST">
         <input type="hidden" th:field="*{pk_SucursalID}"/>
         <div class="form-group">
-            <label for="nameBranch">Branch Name</label>
+            <label for="nameBranch">BRANCH NAME</label>
             <input type="text" class="form-control" id="nameBranch" name="nameBranch" th:field="*{nameBranch}" required>
         </div>
         <div class="form-group">
-            <label for="countryBranch">Branch Country</label>
+            <label for="countryBranch">BRANCH COUNTRY</label>
             <input type="text" class="form-control" id="countryBranch" name="countryBranch" th:field="*{countryBranch}" required>
         </div>
-        <button type="submit" class="btn btn-primary">Update Branch</button>
+        <button type="submit" class="btn btn-primary">UPDATE BRANCH</button>
     </form>
 </div>
 
