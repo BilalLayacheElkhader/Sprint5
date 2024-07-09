@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Branch</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            max-width: 600px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #343a40;
+            text-align: center;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Add New Branch</h2>
+    <form action="#" th:action="@{/branch/add}" th:object="${newBranch}" method="POST">
+        <div class="form-group">
+            <label for="nameBranch">Branch Name</label>
+            <input type="text" class="form-control" id="nameBranch" name="nameBranch" th:field="*{nameBranch}" required>
+        </div>
+        <div class="form-group">
+            <label for="countryBranch">Branch Country</label>
+            <input type="text" class="form-control" id="countryBranch" name="countryBranch" th:field="*{countryBranch}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Branch</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
