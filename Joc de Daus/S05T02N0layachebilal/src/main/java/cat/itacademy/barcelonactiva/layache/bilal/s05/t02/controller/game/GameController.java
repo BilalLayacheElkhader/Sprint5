@@ -33,6 +33,16 @@ public class GameController {
         double averageWinRate = gameService.getAverageWinRate();
         return ResponseEntity.ok("AVERAGE WIN RATE: " + averageWinRate + "%");
     }
+    @GetMapping("/ranking/lowest")
+    public ResponseEntity<List<PlayerDTO>> getPlayersWithLowestWinRate() {
+        List<PlayerDTO> playersWithLowestWinRate = gameService.getPlayersWithLowestWinRate();
+        return ResponseEntity.ok(playersWithLowestWinRate);
+    }
+    @GetMapping("/ranking/highest")
+    public ResponseEntity<List<PlayerDTO>> getPlayersWithHighestWinRate() {
+        List<PlayerDTO> playersWithHighestWinRate = gameService.getPlayersWithHighestWinRate();
+        return ResponseEntity.ok(playersWithHighestWinRate);
+    }
     @DeleteMapping("/deleteAllGames/{idPlayer}")
     public ResponseEntity<String> deleteAllGames(@PathVariable long idPlayer) {
         gameService.deleteAllGames(idPlayer);

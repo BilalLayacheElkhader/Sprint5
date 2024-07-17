@@ -22,4 +22,11 @@ public class PlayerDTO {
         this.name = player.getName();
         this.date = player.getDate();
     }
+
+    public PlayerDTO(Player player, double winRatio) {
+        this.id = player.getId();
+        this.name = player.getName();
+        this.winRatio = winRatio;
+
+    }
 }

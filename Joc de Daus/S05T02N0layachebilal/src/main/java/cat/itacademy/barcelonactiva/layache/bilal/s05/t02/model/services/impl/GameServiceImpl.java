@@ -2,14 +2,18 @@ package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.services.impl;
 
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.exceptions.NameAlreadyExistException;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.exceptions.PlayerIdNotFoundException;
+import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.exceptions.PlayerNotFoundException;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.game.Game;
+import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.player.Player;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.dto.GameDTO;
+import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.dto.PlayerDTO;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.repository.game.GameRepository;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.repository.player.PlayerRepository;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,6 +53,43 @@ public class GameServiceImpl implements GameService {
             throw new PlayerIdNotFoundException(STR."Player Not Found with ID:\{id}");
         }
         gameRepository.deleteByIdPlayer(id);
+    }
+
+    @Override
+    public List<PlayerDTO> getPlayersWithLowestWinRate() {
+        List<Player> players = playerRepository.findAll();
+
+        double lowestWinRate = players.stream()
+                .mapToDouble(this::calculateWinRate)
+                .min()
+                .orElseThrow(() -> new PlayerNotFoundException("NO PLAYERS FOUND"));
+
+        return players.stream()
+                .filter(player -> calculateWinRate(player) == lowestWinRate)
+                .map(player -> new PlayerDTO(player, calculateWinRate(player)))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PlayerDTO> getPlayersWithHighestWinRate() {
+        List<Player> players = playerRepository.findAll();
+
+        double highestWinRate = players.stream()
+                .mapToDouble(this::calculateWinRate)
+                .max()
+                .orElseThrow(() -> new PlayerNotFoundException("NO PLAYERS FOUND"));
+
+        return players.stream()
+                .filter(player -> calculateWinRate(player) == highestWinRate)
+                .map(player -> new PlayerDTO(player, calculateWinRate(player)))
+                .collect(Collectors.toList());
+    }
+
+    private double calculateWinRate(Player player) {
+        List<Game> games = gameRepository.findByIdPlayer(player.getId());
+        long totalGames = games.size();
+        long wins = games.stream().filter(Game::isWin).count();
+        return totalGames > 0 ? (double) wins / totalGames : 0.0;
     }
 
     @Override
