@@ -9,4 +9,7 @@ public interface GameService {
     List<GameDTO> getAllGames(long idPlayer);
     void deleteAllGames(long id);
 
+    double getAverageWinRate();
+
+
 }

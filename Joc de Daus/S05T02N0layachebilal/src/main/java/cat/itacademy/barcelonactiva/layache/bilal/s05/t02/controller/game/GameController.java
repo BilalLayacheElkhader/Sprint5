@@ -28,6 +28,11 @@ public class GameController {
         List<GameDTO> games = gameService.getAllGames(idPlayer);
         return ResponseEntity.ok(games);
     }
+    @GetMapping("/ranking")
+    public ResponseEntity<String> getAverageWinRate() {
+        double averageWinRate = gameService.getAverageWinRate();
+        return ResponseEntity.ok("AVERAGE WIN RATE: " + averageWinRate + "%");
+    }
     @DeleteMapping("/deleteAllGames/{idPlayer}")
     public ResponseEntity<String> deleteAllGames(@PathVariable long idPlayer) {
         gameService.deleteAllGames(idPlayer);

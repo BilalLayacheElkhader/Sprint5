@@ -1,5 +1,6 @@
 package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.game;
 
+import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.player.Player;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,5 +32,6 @@ public class Game {
     private int rollDie() {
         return RANDOM.nextInt(DIE_SIDES) + 1;
     }
+
 
 }

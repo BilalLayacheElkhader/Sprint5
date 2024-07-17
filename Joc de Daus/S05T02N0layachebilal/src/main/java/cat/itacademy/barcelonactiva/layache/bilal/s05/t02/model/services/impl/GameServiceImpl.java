@@ -50,4 +50,16 @@ public class GameServiceImpl implements GameService {
         }
         gameRepository.deleteByIdPlayer(id);
     }
+
+    @Override
+    public double getAverageWinRate() {
+        List<Game> games = gameRepository.findAll();
+        double winRate = games.stream()
+                .mapToDouble(game -> game.isWin() ? 1 : 0)
+                .average()
+                .orElse(0.0);
+        return winRate * 100;
+    }
+
+
 }
