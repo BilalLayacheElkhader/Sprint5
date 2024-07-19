@@ -15,14 +15,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService {
-    @Autowired
-    private PlayerRepository playerRepository;
+
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
+
     @Override
     public GameDTO newGame(long idPlayer) {
         if (!playerRepository.existsById(idPlayer)) {
@@ -34,37 +38,39 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<GameDTO> getAllGames(long idPlayer) {
+    public void deleteAllGames(long idPlayer) {
         if (!playerRepository.existsById(idPlayer)) {
             throw new PlayerIdNotFoundException(STR."Player Not Found with ID:\{idPlayer}");
         }
+        gameRepository.deleteByIdPlayer(idPlayer);
+    }
+
+    @Override
+    public List<GameDTO> getAllGames(long idPlayer) {
+        if (!playerRepository.existsById(idPlayer)) {
+            throw new PlayerIdNotFoundException(String.format("Player Not Found with ID: %d", idPlayer));
+        }
         return gameRepository.findByIdPlayer(idPlayer).stream()
-                .map(game ->{
-                   GameDTO gameDTO =  new GameDTO(game.getIdPlayer(), game.getDie1(), game.getDie2(), game.isWin());
-                    gameDTO.setId(game.getId());
-                    return gameDTO;
-                })
+                .map(game -> new GameDTO(game.getId(), game.getDie1(), game.getDie2(), game.isWin(), game.getIdPlayer()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void deleteAllGames(long id) {
-        if (!playerRepository.existsById(id)) {
-            throw new PlayerIdNotFoundException(STR."Player Not Found with ID:\{id}");
-        }
-        gameRepository.deleteByIdPlayer(id);
+    public double getAverageWinRate() {
+        List<Game> allGames = gameRepository.findAll();
+        OptionalDouble averageWinRate = allGames.stream()
+                .mapToDouble(game -> game.isWin() ? 1.0 : 0.0)
+                .average();
+        return averageWinRate.orElse(0.0) * 100;
     }
 
     @Override
     public List<PlayerDTO> getPlayersWithLowestWinRate() {
-        List<Player> players = playerRepository.findAll();
-
-        double lowestWinRate = players.stream()
+        double lowestWinRate = playerRepository.findAll().stream()
                 .mapToDouble(this::calculateWinRate)
                 .min()
-                .orElseThrow(() -> new PlayerNotFoundException("NO PLAYERS FOUND"));
-
-        return players.stream()
+                .orElse(0.0);
+        return playerRepository.findAll().stream()
                 .filter(player -> calculateWinRate(player) == lowestWinRate)
                 .map(player -> new PlayerDTO(player, calculateWinRate(player)))
                 .collect(Collectors.toList());
@@ -72,14 +78,11 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public List<PlayerDTO> getPlayersWithHighestWinRate() {
-        List<Player> players = playerRepository.findAll();
-
-        double highestWinRate = players.stream()
+        double highestWinRate = playerRepository.findAll().stream()
                 .mapToDouble(this::calculateWinRate)
                 .max()
-                .orElseThrow(() -> new PlayerNotFoundException("NO PLAYERS FOUND"));
-
-        return players.stream()
+                .orElse(0.0);
+        return playerRepository.findAll().stream()
                 .filter(player -> calculateWinRate(player) == highestWinRate)
                 .map(player -> new PlayerDTO(player, calculateWinRate(player)))
                 .collect(Collectors.toList());
@@ -87,20 +90,10 @@ public class GameServiceImpl implements GameService {
 
     private double calculateWinRate(Player player) {
         List<Game> games = gameRepository.findByIdPlayer(player.getId());
-        long totalGames = games.size();
-        long wins = games.stream().filter(Game::isWin).count();
-        return totalGames > 0 ? (double) wins / totalGames : 0.0;
+        if (games.isEmpty()) {
+            return 0.0;
+        }
+        long winCount = games.stream().filter(Game::isWin).count();
+        return (double) winCount / games.size() * 100;
     }
-
-    @Override
-    public double getAverageWinRate() {
-        List<Game> games = gameRepository.findAll();
-        double winRate = games.stream()
-                .mapToDouble(game -> game.isWin() ? 1 : 0)
-                .average()
-                .orElse(0.0);
-        return winRate * 100;
-    }
-
-
 }

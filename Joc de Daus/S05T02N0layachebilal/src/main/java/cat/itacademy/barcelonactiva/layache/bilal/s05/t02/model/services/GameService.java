@@ -7,12 +7,14 @@ import java.util.List;
 
 public interface GameService {
     GameDTO newGame(long idPlayer);
-    List<GameDTO> getAllGames(long idPlayer);
-    void deleteAllGames(long id);
 
-    List<PlayerDTO> getPlayersWithLowestWinRate();
-    List<PlayerDTO> getPlayersWithHighestWinRate();
+    void deleteAllGames(long idPlayer);
+
+    List<GameDTO> getAllGames(long idPlayer);
+
     double getAverageWinRate();
 
+    List<PlayerDTO> getPlayersWithLowestWinRate();
 
+    List<PlayerDTO> getPlayersWithHighestWinRate();
 }

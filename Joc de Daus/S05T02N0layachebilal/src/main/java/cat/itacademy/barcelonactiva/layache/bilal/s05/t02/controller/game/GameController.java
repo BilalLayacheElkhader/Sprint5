@@ -11,39 +11,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/game")
+@RequestMapping("/players")
 public class GameController {
+
     @Autowired
     private PlayerService playerService;
+
     @Autowired
     private GameService gameService;
 
-    @PostMapping("/newGame/{idPlayer}")
-    public ResponseEntity<String> newGame(@PathVariable long idPlayer) {
+    @PostMapping("/{idPlayer}/games")
+    public ResponseEntity<GameDTO> newGame(@PathVariable long idPlayer) {
         GameDTO gameDTO = gameService.newGame(idPlayer);
-        return ResponseEntity.ok("Game Played");
+        return ResponseEntity.ok(gameDTO);
     }
-    @GetMapping("/getAllGames/{idPlayer}")
+
+    @GetMapping("/{idPlayer}/getAllGames")
     public ResponseEntity<List<GameDTO>> getAllGames(@PathVariable long idPlayer) {
         List<GameDTO> games = gameService.getAllGames(idPlayer);
         return ResponseEntity.ok(games);
     }
+
     @GetMapping("/ranking")
     public ResponseEntity<String> getAverageWinRate() {
         double averageWinRate = gameService.getAverageWinRate();
         return ResponseEntity.ok("AVERAGE WIN RATE: " + averageWinRate + "%");
     }
+
     @GetMapping("/ranking/lowest")
     public ResponseEntity<List<PlayerDTO>> getPlayersWithLowestWinRate() {
         List<PlayerDTO> playersWithLowestWinRate = gameService.getPlayersWithLowestWinRate();
         return ResponseEntity.ok(playersWithLowestWinRate);
     }
+
     @GetMapping("/ranking/highest")
     public ResponseEntity<List<PlayerDTO>> getPlayersWithHighestWinRate() {
         List<PlayerDTO> playersWithHighestWinRate = gameService.getPlayersWithHighestWinRate();
         return ResponseEntity.ok(playersWithHighestWinRate);
     }
-    @DeleteMapping("/deleteAllGames/{idPlayer}")
+
+    @DeleteMapping("/{idPlayer}/deleteAllGames")
     public ResponseEntity<String> deleteAllGames(@PathVariable long idPlayer) {
         gameService.deleteAllGames(idPlayer);
         PlayerDTO playerDTO = playerService.getById(idPlayer);

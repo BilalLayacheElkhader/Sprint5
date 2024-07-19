@@ -29,4 +29,10 @@ public class PlayerDTO {
         this.winRatio = winRatio;
 
     }
+
+    public PlayerDTO(long id, String name, double winRatio) {
+        this.id = id;
+        this.name = name;
+        this.winRatio = winRatio;
+    }
 }

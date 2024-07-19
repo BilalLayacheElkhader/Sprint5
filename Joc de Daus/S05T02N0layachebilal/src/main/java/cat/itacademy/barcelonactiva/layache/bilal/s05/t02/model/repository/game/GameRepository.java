@@ -9,4 +9,6 @@ import java.util.List;
 public interface GameRepository extends MongoRepository<Game, String> {
     List<Game> findByIdPlayer(long idPlayer);
     void deleteByIdPlayer(long idPlayer);
+    long countByIdPlayer(long idPlayer);
+    long countByIdPlayerAndWinTrue(long idPlayer);
 }

@@ -9,34 +9,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/player")
+@RequestMapping("/players")
 public class PlayerController {
+
     @Autowired
     private PlayerService playerService;
 
-    @PostMapping("/add")
-    public ResponseEntity<String> createPlayer(@RequestBody PlayerDTO playerDTO){
+    @PostMapping
+    public ResponseEntity<String> createPlayer(@RequestBody PlayerDTO playerDTO) {
         playerService.add(playerDTO);
-        return ResponseEntity.ok("Added");
+        return ResponseEntity.ok("PLAYER ADDED");
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id){
-        playerService.delete(id);
-        return ResponseEntity.ok("Deleted");
-    }
-    @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestBody PlayerDTO playerDTO){
+
+    @PutMapping
+    public ResponseEntity<String> updatePlayer(@RequestBody PlayerDTO playerDTO) {
         playerService.update(playerDTO);
-        return ResponseEntity.ok("Updated");
+        return ResponseEntity.ok("PLAYER UPDATED");
     }
-    @GetMapping("/getAll")
-    public ResponseEntity<List<PlayerDTO>> getAll(){
-        List<PlayerDTO> playerDTOS = playerService.getAll();
-        return ResponseEntity.ok(playerDTOS);
+
+    @GetMapping
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
+        List<PlayerDTO> players = playerService.getAll();
+        return ResponseEntity.ok(players);
     }
-    @GetMapping("/getOne/{id}")
-    public ResponseEntity<PlayerDTO> getById(@PathVariable int id){
-        PlayerDTO playerDTO = playerService.getById(id);
-        return ResponseEntity.ok(playerDTO);
+    @GetMapping("/ranking/loser")
+    public ResponseEntity<List<PlayerDTO>> getPlayersWithLowestWinRate() {
+        List<PlayerDTO> playersWithLowestWinRate = playerService.getPlayersWithLowestWinRate();
+        return ResponseEntity.ok(playersWithLowestWinRate);
+    }
+
+    @GetMapping("/ranking/winner")
+    public ResponseEntity<List<PlayerDTO>> getPlayersWithHighestWinRate() {
+        List<PlayerDTO> playersWithHighestWinRate = playerService.getPlayersWithHighestWinRate();
+        return ResponseEntity.ok(playersWithHighestWinRate);
     }
 }
