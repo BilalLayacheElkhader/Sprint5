@@ -1,12 +1,12 @@
 package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.player;
 
-import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.User.Role;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 import java.time.LocalDate;
 
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Player implements UserDetails {
+public class Player{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,7 +23,7 @@ public class Player implements UserDetails {
     private String name;
     private String mail;
     private String password;
-    Role role;
+    //Role role;
 
     public Player(String name) {
 
