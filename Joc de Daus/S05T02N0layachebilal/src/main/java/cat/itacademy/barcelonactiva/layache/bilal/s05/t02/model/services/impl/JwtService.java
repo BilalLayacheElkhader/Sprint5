@@ -1,10 +1,13 @@
 package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.services.impl;
 
+import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.repository.player.PlayerRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.ClassInfo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,10 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static  final String SECRET_KEY = "9f2c6d8b4e6a1d8b9e3c2f6e7a4d8b6c9f0e3c2d6a7f8b1e0f2c4a7d6b8e9c3";
-                                            
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
