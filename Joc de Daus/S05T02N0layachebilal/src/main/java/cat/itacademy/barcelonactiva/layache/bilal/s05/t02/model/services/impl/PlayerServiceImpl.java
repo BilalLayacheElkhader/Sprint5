@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
@@ -27,7 +28,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void add(PlayerDTO playerDTO) {
         Player player = new Player(playerDTO.getName());
-        if (player.getName()== null || player.getName().isBlank()) {
+        if (player.getName() == null || player.getName().isBlank()) {
             player.setName("Anonymous");
         }
         playerRepository.findByName(playerDTO.getName())
@@ -40,12 +41,18 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void update(PlayerDTO playerDTO) {
+
         Player existingPlayer = playerRepository.findById(playerDTO.getId())
                 .orElseThrow(() -> new PlayerNotFoundException("Player Not Found with ID: " + playerDTO.getId()));
-        playerRepository.findByName(playerDTO.getName())
-                .ifPresent(pl -> {
-                    throw new NameAlreadyExistException(STR."Name \{pl.getName()} not avaible.");
-                });
+        if (playerDTO.getName() == null || playerDTO.getName().isBlank()) {
+            playerDTO.setName("Anonymous");
+        }
+        if (!"Anonymous".equals(playerDTO.getName())) {
+            playerRepository.findByName(playerDTO.getName())
+                    .ifPresent(pl -> {
+                        throw new NameAlreadyExistException(STR."Name \{pl.getName()} not avaible.");
+                    });
+        }
         existingPlayer.setName(playerDTO.getName());
         playerRepository.save(existingPlayer);
     }

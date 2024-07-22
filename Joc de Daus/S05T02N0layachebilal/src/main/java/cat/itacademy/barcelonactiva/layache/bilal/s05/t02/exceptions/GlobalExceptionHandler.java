@@ -25,4 +25,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String msg = e.getMessage()+" "+request.getDescription(false);
         return new ResponseEntity<String>(msg, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(NotEmptyException.class)
+    public ResponseEntity<String> handlerNotEmptyException(NotEmptyException e, WebRequest request){
+        String msg = e.getMessage()+" "+request.getDescription(false);
+        return new ResponseEntity<String>(msg, HttpStatus.NOT_ACCEPTABLE);
+    }
+
 }

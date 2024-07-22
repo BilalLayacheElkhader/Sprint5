@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.player.Player;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 
 public class PlayerDTO {
     private long id;
-    private LocalDate date;
+    private Date date;
     private String name;
     private double winRatio;
 

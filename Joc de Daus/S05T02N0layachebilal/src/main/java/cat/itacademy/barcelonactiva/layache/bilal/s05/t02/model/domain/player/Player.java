@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,11 +22,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="player", uniqueConstraints ={@UniqueConstraint(columnNames = {"email"})} )
 public class Player implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalDate date;
+    private Date date;
     private String name;
     private String email;
     private String password;
@@ -35,7 +37,7 @@ public class Player implements UserDetails {
     public Player(String name) {
 
         this.name =(name == null || name.isEmpty()) ? "Anonymous" : name;
-        this.date = LocalDate.now();
+
     }
 
     @Override
