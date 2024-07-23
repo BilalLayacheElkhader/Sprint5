@@ -15,11 +15,11 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @PostMapping
+   /* @PostMapping
     public ResponseEntity<String> createPlayer(@RequestBody PlayerDTO playerDTO) {
         playerService.add(playerDTO);
         return ResponseEntity.ok("PLAYER ADDED");
-    }
+    }*/
 
     @PutMapping
     public ResponseEntity<String> updatePlayer(@RequestBody PlayerDTO playerDTO) {

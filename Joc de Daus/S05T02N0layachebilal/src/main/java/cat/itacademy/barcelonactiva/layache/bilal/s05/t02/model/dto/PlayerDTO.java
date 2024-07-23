@@ -1,5 +1,6 @@
 package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 public class PlayerDTO {
     private long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
     private String name;
     private double winRatio;
@@ -27,6 +29,7 @@ public class PlayerDTO {
     public PlayerDTO(Player player, double winRatio) {
         this.id = player.getId();
         this.name = player.getName();
+        this.date = player.getDate();
         this.winRatio = winRatio;
 
     }

@@ -2,6 +2,7 @@ package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.player;
 
 
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.Role.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class Player implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
     private String name;
     private String email;
