@@ -36,11 +36,6 @@ public class Player implements UserDetails {
     @Enumerated(EnumType.ORDINAL)
     private Role role;
 
-    public Player(String name) {
-
-        this.name =(name == null || name.isEmpty()) ? "Anonymous" : name;
-
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,7 +71,5 @@ public class Player implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-    /*public void setName(String name) {
-        this.name = (name == null || name.isEmpty()) ? "Anonymous" : name;
-    }*/
+
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 @Service
 public interface PlayerService {
-        void add(PlayerDTO playerDTO);
 
         void delete(long id);
 

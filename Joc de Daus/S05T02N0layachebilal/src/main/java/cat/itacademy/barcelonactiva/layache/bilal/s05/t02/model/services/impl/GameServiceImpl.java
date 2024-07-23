@@ -63,37 +63,4 @@ public class GameServiceImpl implements GameService {
                 .average();
         return averageWinRate.orElse(0.0) * 100;
     }
-
-    @Override
-    public List<PlayerDTO> getPlayersWithLowestWinRate() {
-        double lowestWinRate = playerRepository.findAll().stream()
-                .mapToDouble(this::calculateWinRate)
-                .min()
-                .orElse(0.0);
-        return playerRepository.findAll().stream()
-                .filter(player -> calculateWinRate(player) == lowestWinRate)
-                .map(player -> new PlayerDTO(player, calculateWinRate(player)))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PlayerDTO> getPlayersWithHighestWinRate() {
-        double highestWinRate = playerRepository.findAll().stream()
-                .mapToDouble(this::calculateWinRate)
-                .max()
-                .orElse(0.0);
-        return playerRepository.findAll().stream()
-                .filter(player -> calculateWinRate(player) == highestWinRate)
-                .map(player -> new PlayerDTO(player, calculateWinRate(player)))
-                .collect(Collectors.toList());
-    }
-
-    private double calculateWinRate(Player player) {
-        List<Game> games = gameRepository.findByIdPlayer(player.getId());
-        if (games.isEmpty()) {
-            return 0.0;
-        }
-        long winCount = games.stream().filter(Game::isWin).count();
-        return (double) winCount / games.size() * 100;
-    }
 }

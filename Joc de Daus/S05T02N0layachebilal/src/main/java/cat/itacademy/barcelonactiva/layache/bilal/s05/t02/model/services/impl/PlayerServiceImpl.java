@@ -26,20 +26,6 @@ public class PlayerServiceImpl implements PlayerService {
     private GameRepository gameRepository;
 
     @Override
-    public void add(PlayerDTO playerDTO) {
-        Player player = new Player(playerDTO.getName());
-        if (player.getName() == null || player.getName().isBlank()) {
-            player.setName("Anonymous");
-        }
-        playerRepository.findByName(playerDTO.getName())
-                .ifPresent(pl -> {
-                    throw new NameAlreadyExistException(STR."Name \{pl.getName()} not avaible.");
-                });
-        playerRepository.save(player);
-
-    }
-
-    @Override
     public void update(PlayerDTO playerDTO) {
 
         Player existingPlayer = playerRepository.findById(playerDTO.getId())

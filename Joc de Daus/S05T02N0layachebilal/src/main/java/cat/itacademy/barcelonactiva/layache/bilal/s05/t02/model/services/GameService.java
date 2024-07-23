@@ -13,8 +13,4 @@ public interface GameService {
     List<GameDTO> getAllGames(long idPlayer);
 
     double getAverageWinRate();
-
-    List<PlayerDTO> getPlayersWithLowestWinRate();
-
-    List<PlayerDTO> getPlayersWithHighestWinRate();
 }
