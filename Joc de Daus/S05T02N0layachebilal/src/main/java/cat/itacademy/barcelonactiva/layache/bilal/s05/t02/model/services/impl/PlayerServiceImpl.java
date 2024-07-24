@@ -12,6 +12,7 @@ import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.repository.playe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,12 +55,15 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public List<PlayerDTO> getAll() {
         List<Player> players = playerRepository.findAll();
-        return players.stream()
-                .map(player -> {
-                    double winRate = calculateWinRate(player);
-                    return new PlayerDTO(player, winRate);
-                })
-                .collect(Collectors.toList());
+        List<PlayerDTO> playerDTOs = new ArrayList<>();
+
+        for (Player player : players) {
+            double winRate = calculateWinRate(player);
+            PlayerDTO playerDTO = new PlayerDTO(player, winRate);
+            playerDTOs.add(playerDTO);
+        }
+
+        return playerDTOs;
     }
 
     @Override
