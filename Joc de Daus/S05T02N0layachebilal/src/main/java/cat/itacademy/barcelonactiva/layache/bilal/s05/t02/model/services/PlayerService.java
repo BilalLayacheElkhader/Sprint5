@@ -8,7 +8,6 @@ import java.util.List;
 @Service
 public interface PlayerService {
 
-        void delete(long id);
 
         void update(PlayerDTO playerDTO);
 
@@ -16,7 +15,6 @@ public interface PlayerService {
 
         PlayerDTO getById(long id);
 
-        double getAverageWinRate();
         List<PlayerDTO> getPlayersWithLowestWinRate();
         List<PlayerDTO> getPlayersWithHighestWinRate();
 }

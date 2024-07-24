@@ -44,13 +44,7 @@ public class PlayerServiceImpl implements PlayerService {
         playerRepository.save(existingPlayer);
     }
 
-    @Override
-    public void delete(long id) {
-        if (!playerRepository.existsById(id)) {
-            throw new PlayerIdNotFoundException(STR."Player Not Found with ID:\{id}");
-        }
-        playerRepository.deleteById(id);
-    }
+
 
     @Override
     public List<PlayerDTO> getAll() {
@@ -72,16 +66,6 @@ public class PlayerServiceImpl implements PlayerService {
                 .orElseThrow(() -> new RuntimeException("Player not found"));
         double winRate = calculateWinRate(player);
         return new PlayerDTO(player, winRate);
-    }
-
-    @Override
-    public double getAverageWinRate() {
-        List<Player> players = playerRepository.findAll();
-        if (players.isEmpty()) return 0.0;
-        return players.stream()
-                .mapToDouble(this::calculateWinRate)
-                .average()
-                .orElse(0.0);
     }
 
     @Override

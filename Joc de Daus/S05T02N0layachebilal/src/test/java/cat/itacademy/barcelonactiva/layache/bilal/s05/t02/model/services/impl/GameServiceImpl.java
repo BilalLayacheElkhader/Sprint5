@@ -12,11 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -82,14 +77,4 @@ class GameServiceImplTest {
         assertThrows(PlayerIdNotFoundException.class, () -> gameService.deleteAllGames(1L));
     }
 
-    @Test
-    void testGetAllGames() {
-        when(playerRepository.existsById(anyLong())).thenReturn(true);
-        when(gameRepository.findByIdPlayer(anyLong())).thenReturn(Collections.singletonList(game));
-
-        List<GameDTO> games = gameService.getAllGames(1L);
-
-        assertEquals(1, games.size());
-        assertEquals(1L, games.get(0).getIdPlayer());
-    }
 }

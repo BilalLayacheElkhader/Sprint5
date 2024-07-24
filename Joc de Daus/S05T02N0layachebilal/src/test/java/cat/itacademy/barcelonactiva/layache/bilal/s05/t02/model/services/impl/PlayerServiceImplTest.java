@@ -1,7 +1,6 @@
 package cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.services.impl;
 
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.exceptions.NameAlreadyExistException;
-import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.exceptions.PlayerIdNotFoundException;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.exceptions.PlayerNotFoundException;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.domain.player.Player;
 import cat.itacademy.barcelonactiva.layache.bilal.s05.t02.model.dto.PlayerDTO;
@@ -74,22 +73,6 @@ class PlayerServiceImplTest {
     }
 
     @Test
-    void testDeletePlayer() {
-        when(playerRepository.existsById(anyLong())).thenReturn(true);
-
-        playerService.delete(1L);
-
-        verify(playerRepository).deleteById(1L);
-    }
-
-    @Test
-    void testDeletePlayer_NotFound() {
-        when(playerRepository.existsById(anyLong())).thenReturn(false);
-
-        assertThrows(PlayerIdNotFoundException.class, () -> playerService.delete(1L));
-    }
-
-    @Test
     void testGetAllPlayers() {
         when(playerRepository.findAll()).thenReturn(Collections.singletonList(player));
         when(gameRepository.countByIdPlayer(anyLong())).thenReturn(10L);
@@ -117,17 +100,6 @@ class PlayerServiceImplTest {
         when(playerRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> playerService.getById(1L));
-    }
-
-    @Test
-    void testGetAverageWinRate() {
-        when(playerRepository.findAll()).thenReturn(Collections.singletonList(player));
-        when(gameRepository.countByIdPlayer(anyLong())).thenReturn(10L);
-        when(gameRepository.countByIdPlayerAndWinTrue(anyLong())).thenReturn(5L);
-
-        double averageWinRate = playerService.getAverageWinRate();
-
-        assertEquals(50.0, averageWinRate);
     }
 
     @Test
